@@ -107,7 +107,8 @@ require './supplier'
       	end
 
       	it "should return how many stocks are in the pantry" do
-      		@store.create_report
+      		@store.create_html_report
+      		@store.create_text
       	end
       end
     end
