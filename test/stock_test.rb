@@ -86,13 +86,30 @@ require './supplier'
         end
       end
 
+      describe "Report" do
+      	before do
+
+		    	supplier = Supplier.new(:name => "Sainsburys Ltd.", :contact => "Mr. Smith",
+		      :number => "12345 6789012")
+
+				 #  @item = Item.new(:quantity => 5, :title => "Loaf of Bread", 
+					# :price => 1.0,  :best_before => Date.new(2015, 2, 1), 
+					# :purchase_date => Date.new(2015, 1, 22),
+					# :supplier => supplier) 
 
 
-      describe "it should return how many stocks are in the pantry" do
+	    		@item_2 = Item.new(:quantity => 5, :title => "Hovis", 
+					:price => 1.0,  :best_before => Date.new(2015, 2, 1), 
+					:purchase_date => Date.new(2015, 1, 22),
+					:supplier => supplier) 
 
+		    	@store.add (@item_2)
+      	end
+
+      	it "should return how many stocks are in the pantry" do
+      		@store.create_report
+      	end
       end
-
-
     end
   end
 
