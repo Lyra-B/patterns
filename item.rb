@@ -8,8 +8,16 @@ class Item
 		end
 	end
 
-
-	
+#Compare self with other_item and return true / false if they're equivalent
+	def eql?(other_item)
+		self.title == other_item.title
+	end
+  
+  def ==(other_item)
+  	self.title == other_item.title
+  end
 end
+
+
 
 
