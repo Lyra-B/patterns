@@ -1,4 +1,4 @@
-Inventroy App
+Inventory App
 =============
 
 Let's practice some design patterns whilst building an inventory app.
