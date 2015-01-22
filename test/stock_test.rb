@@ -72,13 +72,24 @@ require './supplier'
       	describe "notifications" do
       		before do 
       			@store.take(@item, 2)
+      			@supplier = Supplier.new
       		end
 
 	      	it "should notify the supplier when the quantity falls below 3 and 
 	      	create an order for the item" do
 	      		@item.supplier.orders.first.must_equal @item
 	      	end
+
+	      	it "should return a warning message" do
+	      		@supplier.notify(@item).must_equal "You're low on Loaf of Bread"
+	      	end
         end
+      end
+
+
+
+      describe "it should return how many stocks are in the pantry" do
+
       end
 
 

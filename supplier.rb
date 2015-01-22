@@ -19,7 +19,10 @@ class Supplier
 
 	def notify(item)
 		#opportunity to do sth with item
-		@orders << item if item.needs_stock?
+		if item.needs_stock?
+			@orders << item
+			"You're low on #{item.title}"
+		end
 	end
 
 end
