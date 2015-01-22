@@ -31,5 +31,31 @@ class Store
 	def delete(item)
 		@store.delete(item)
 	end
+
+def take(item, quantity)
+    update(item, :quantity => item.quantity - quantity)
+  end
+
+	# def check_stock_levels(item)
+	# 	if item.quantity < 3
+	# 	item.handle_low_stock
+	# 	end
+ #  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 end

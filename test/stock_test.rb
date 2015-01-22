@@ -2,28 +2,32 @@ require 'minitest/autorun'
 require './item'
 require './store'
 require 'date'
+require './supplier'
 
 	class StockTest < Minitest::Test
   	describe 'The stock System' do
   		before do
+  			supplier = Supplier.new(:name => "Sainsburys Ltd.", :contact => "Mr. Smith",
+        :number => "12345 6789012")
+
   			@item = Item.new(:quantity => 5, :title => "Loaf of Bread", 
   				:price => 1.0,  :best_before => Date.new(2015, 2, 1), 
-  				:purchase_date => Date.new(2015, 1, 22),:supplier => "Sainsbury Ltd.", 
-  				:supplier_contact => "Mr Smith", :supplier_number =>"12345 6789012")
+  				:purchase_date => Date.new(2015, 1, 22),
+  				:supplier => supplier) 
+
+  			@item.add_observer (supplier)
   			@store = Store.new
+  			@store.add @item
   		end
 
   		it "should consider two items as the same, if they share the same title" do
-  			@item.must_equal Item.new(:title => "Loaf of Bread")
-  			@item.wont_equal Item.new(:title => "Cornfakes")
+  			item = Item.new
+  			item.instance_variable_set(:@id, @item.id)
+  			@item.must_equal item
   		end
   	
 
       describe "Create an Item" do
-      	before do
-      		@store.add @item
-      	end
-
       	it "should now be stored in the store" do
       		@store.length.must_equal 1
       		@store.last.must_equal @item
@@ -31,10 +35,6 @@ require 'date'
       end
 
       describe "Read Items" do
-      	before do
-      		@store.add @item
-      	end
-
       	it "should find an array of all items" do
       		@store.all.must_equal [@item]
         end
@@ -42,7 +42,6 @@ require 'date'
       
       describe "Updating Item" do
       	before do
-      		@store.add  @item
       		@updated = @store.update(@item, {:quantity => 7})
       	end
 
@@ -53,7 +52,6 @@ require 'date'
       
       describe "Deleting an Item" do
       	before do
-      		@store.add  @item
       		@store.delete @item
       	end
 
@@ -61,6 +59,29 @@ require 'date'
       		@store.length.must_equal 0
       	end
       end
+
+      describe "reducing stock level" do
+      	before do
+      		@store.take(@item, 1)
+      	end
+
+      	it "should reduce the quantity by 1" do 
+      		@item.quantity.must_equal 4
+      	end
+
+      	describe "notifications" do
+      		before do 
+      			@store.take(@item, 2)
+      		end
+
+	      	it "should notify the supplier when the quantity falls below 3 and 
+	      	create an order for the item" do
+	      		@item.supplier.orders.first.must_equal @item
+	      	end
+        end
+      end
+
+
     end
   end
 
