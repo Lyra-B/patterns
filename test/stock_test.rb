@@ -3,6 +3,7 @@ require './item'
 require './store'
 require 'date'
 require './supplier'
+require './report'
 
 	class StockTest < Minitest::Test
   	describe 'The stock System' do
@@ -87,29 +88,62 @@ require './supplier'
       end
 
       describe "Report" do
+        describe "in plain text" do
       	before do
+          @report = Report.new(@store.all, :text)
+        end
 
-		    	supplier = Supplier.new(:name => "Sainsburys Ltd.", :contact => "Mr. Smith",
-		      :number => "12345 6789012")
+        it "should know how to make a header" do
+          @report.make_header.must_match /Stock Report/
+        end
 
-				 #  @item = Item.new(:quantity => 5, :title => "Loaf of Bread", 
+        it "should know how to make the body" do
+          @report.make_body.must_match /Loaf/
+        end
+
+         it "should know how to make the footer" do
+          @report.make_footer.must_match //
+        end
+
+        describe "Report" do
+        describe "in html text" do
+        before do
+          @report = Report.new(@store.all, :text)
+        end
+
+        it "should know how to make a header" do
+          @report.make_header.must_match /Stock Report/
+        end
+
+        it "should know how to make the body" do
+          @report.make_body.must_match /Loaf/
+        end
+
+         it "should know how to make the footer" do
+          @report.make_footer.must_match /Stock Report/
+        end
+
+		   #  	supplier = Supplier.new(:name => "Sainsburys Ltd.", :contact => "Mr. Smith",
+		   #    :number => "12345 6789012")
+
+				 # #  @item = Item.new(:quantity => 5, :title => "Loaf of Bread", 
+					# # :price => 1.0,  :best_before => Date.new(2015, 2, 1), 
+					# # :purchase_date => Date.new(2015, 1, 22),
+					# # :supplier => supplier) 
+
+
+	    # 		@item_2 = Item.new(:quantity => 5, :title => "Hovis", 
 					# :price => 1.0,  :best_before => Date.new(2015, 2, 1), 
 					# :purchase_date => Date.new(2015, 1, 22),
 					# :supplier => supplier) 
 
+		   #  	@store.add (@item_2)
+      end
 
-	    		@item_2 = Item.new(:quantity => 5, :title => "Hovis", 
-					:price => 1.0,  :best_before => Date.new(2015, 2, 1), 
-					:purchase_date => Date.new(2015, 1, 22),
-					:supplier => supplier) 
-
-		    	@store.add (@item_2)
-      	end
-
-      	it "should return how many stocks are in the pantry" do
-      		@store.create_html_report
-      		@store.create_text
-      	end
+      	# it "should return how many stocks are in the pantry" do
+      	# 	# @store.create_html_report
+      	# 	# @store.create_text
+      	# end
       end
     end
   end

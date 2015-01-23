@@ -53,8 +53,6 @@
 			end
 			total
 		end
-
-
   end
 
  
@@ -86,7 +84,7 @@ class Store
 	def update(item, attrs_to_update = {})
 		item_to_update = @store.find {|i| i == item}
 		attrs_to_update.each do |method_name, value|
-			item_to_update.send("#{method_name}=", value)
+		item_to_update.send("#{method_name}=", value)
 		end
 		item_to_update
 	end
@@ -99,6 +97,36 @@ class Store
     update(item, :quantity => item.quantity - quantity)
   end
 end
+
+
+# class Report
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
